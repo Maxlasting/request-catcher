@@ -20,8 +20,8 @@ function cacheRequestError (config = {}) {
   const {
     wrapperClassName,
     msgClassName,
-    pendingMsg = '正在连接中...',
-    loadingMsg = '正在传输中...',
+    pendingMsg = 'connecting...',
+    loadingMsg = 'downloading...',
     timeout = 1000,
     pendinghandler = function () {},
     loadinghandler = function () {},
