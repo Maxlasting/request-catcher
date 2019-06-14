@@ -1,6 +1,6 @@
 # request catcher
 
-![npm](https://img.shields.io/npm/v/0.0.6.svg)
+![npm](https://img.shields.io/npm/v/request-catcher.svg) ![NPM](https://img.shields.io/npm/l/request-catcher.svg)
 
 > This is the ajax request catcher, and confirm some info or do some thing.
 
