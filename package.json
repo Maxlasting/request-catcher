@@ -17,7 +17,7 @@
     "catcher"
   ],
   "author": "maxlasting",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Maxlasting/request-catcher/issues"
   },
