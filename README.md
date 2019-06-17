@@ -28,10 +28,11 @@ rc({
 
 ## configure
 
-- timeout: default 1000ms
+- useNotify: If use default notify.
+- timeout: default is 1000ms.
 - wrapperClassName: Outer container's classname, if use it the style attribute will be invalid.
 - msgClassName: Message container's classname, the same as wrapperClassName.
 - pendingMsg: default is 'connecting...'.
 - loadingMsg: default is 'downloading...'.
-- hook: pendinghandler -> callback do something on pending.
+- hook: pendinghandler(readyState) -> if time greater than timeout callback will be do something on pending.
 - hook: loadinghandler -> callback do some thing on loading.

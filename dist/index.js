@@ -20,15 +20,17 @@ var pendings = [],
 function cacheRequestError(config) {
   if ( config === void 0 ) config = {};
 
+  var useNotify = config.useNotify; if ( useNotify === void 0 ) useNotify = true;
   var wrapperClassName = config.wrapperClassName;
   var msgClassName = config.msgClassName;
-  var pendingMsg = config.pendingMsg; if ( pendingMsg === void 0 ) pendingMsg = '正在连接中...';
-  var loadingMsg = config.loadingMsg; if ( loadingMsg === void 0 ) loadingMsg = '正在传输中...';
+  var pendingMsg = config.pendingMsg; if ( pendingMsg === void 0 ) pendingMsg = 'connecting...';
+  var loadingMsg = config.loadingMsg; if ( loadingMsg === void 0 ) loadingMsg = 'downloading...';
   var timeout = config.timeout; if ( timeout === void 0 ) timeout = 1000;
   var pendinghandler = config.pendinghandler; if ( pendinghandler === void 0 ) pendinghandler = function () {};
   var loadinghandler = config.loadinghandler; if ( loadinghandler === void 0 ) loadinghandler = function () {};
 
   var createNotify = function () {
+    if (!useNotify) { return; }
     var box = document.createElement('div');
     var msg = document.createElement('div');
 
@@ -57,6 +59,7 @@ function cacheRequestError(config) {
   var hideNotify = function () { return notifyDom.style.display = 'none'; };
 
   var $notify = function (msg) {
+    if (!useNotify) { return; }
     notifyMsgDom.innerText = msg;
     showNotify();
   };
@@ -74,7 +77,10 @@ function cacheRequestError(config) {
         this$1.pending = true;
         pendings.push(this$1);
         $notify(pendingMsg);
-        pendinghandler(this$1);
+      }
+
+      if (this$1.readyState !== 4) {
+        pendinghandler(this$1.readyState);
       }
     }, timeout);
     var first = true,

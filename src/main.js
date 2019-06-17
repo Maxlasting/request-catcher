@@ -18,6 +18,7 @@ let pendings = [], loads = []
 
 function cacheRequestError (config = {}) {
   const {
+    useNotify = true,
     wrapperClassName,
     msgClassName,
     pendingMsg = 'connecting...',
@@ -28,6 +29,7 @@ function cacheRequestError (config = {}) {
   } = config
 
   const createNotify = function () {
+    if (!useNotify) return
     const box = document.createElement('div')
     const msg = document.createElement('div')
     if (wrapperClassName) {
@@ -52,6 +54,7 @@ function cacheRequestError (config = {}) {
   const hideNotify = () => notifyDom.style.display = 'none'
 
   const $notify = function (msg) {
+    if (!useNotify) return
     notifyMsgDom.innerText = msg
     showNotify()
   }
@@ -66,7 +69,9 @@ function cacheRequestError (config = {}) {
         this.pending = true
         pendings.push(this)
         $notify(pendingMsg)
-        pendinghandler(this)
+      }
+      if (this.readyState !== 4) {
+        pendinghandler(this.readyState)
       }
     }, timeout)
 
