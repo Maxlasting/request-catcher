@@ -28,6 +28,7 @@ function cacheRequestError(config) {
   var timeout = config.timeout; if ( timeout === void 0 ) timeout = 1000;
   var pendinghandler = config.pendinghandler; if ( pendinghandler === void 0 ) pendinghandler = function () {};
   var loadinghandler = config.loadinghandler; if ( loadinghandler === void 0 ) loadinghandler = function () {};
+  var customHide = config.customHide; if ( customHide === void 0 ) customHide = function () {};
 
   var createNotify = function () {
     if (!useNotify) { return; }
@@ -52,11 +53,10 @@ function cacheRequestError(config) {
   };
 
   var notifyDom = createNotify();
-  var notifyMsgDom = notifyDom.children[0];
 
-  var showNotify = function () { return notifyDom.style.display = 'block'; };
-
-  var hideNotify = function () { return notifyDom.style.display = 'none'; };
+  if (useNotify) {
+    var notifyMsgDom$1 = notifyDom.children[0];
+  }
 
   var $notify = function (msg) {
     if (!useNotify) { return; }
@@ -80,7 +80,7 @@ function cacheRequestError(config) {
       }
 
       if (this$1.readyState !== 4) {
-        pendinghandler(this$1.readyState);
+        pendinghandler(this$1, args[1]);
       }
     }, timeout);
     var first = true,
@@ -132,7 +132,9 @@ function cacheRequestError(config) {
           }
 
           if (isLoaded && !pendings.length) {
-            setTimeout(function () { return hideNotify(); }, 1000);
+            setTimeout(function () {
+              useNotify ? hideNotify() : customHide;
+            }, 1000);
             loads = [];
             pendings = [];
           }
