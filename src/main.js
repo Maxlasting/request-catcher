@@ -51,9 +51,9 @@ function cacheRequestError (config = {}) {
   const notifyDom = createNotify()
 
   if (useNotify) {
-    const notifyMsgDom = notifyDom.children[0]
-    const showNotify = () => notifyDom.style.display = 'block'
-    const hideNotify = () => notifyDom.style.display = 'none'
+    var notifyMsgDom = notifyDom.children[0]
+    var showNotify = () => notifyDom.style.display = 'block'
+    var hideNotify = () => notifyDom.style.display = 'none'
   }
 
   const $notify = function (msg) {
@@ -116,7 +116,7 @@ function cacheRequestError (config = {}) {
           }
           if (isLoaded && !pendings.length) {
             setTimeout(() => {
-              useNotify ? hideNotify() : customHide
+              useNotify ? hideNotify() : customHide()
             }, 1000)
             loads = []
             pendings = []
