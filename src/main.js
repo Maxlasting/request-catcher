@@ -26,6 +26,7 @@ function cacheRequestError (config = {}) {
     timeout = 1000,
     pendinghandler = function () {},
     loadinghandler = function () {},
+    customHide = function () {},
   } = config
 
   const createNotify = function () {
@@ -48,10 +49,12 @@ function cacheRequestError (config = {}) {
   }
 
   const notifyDom = createNotify()
-  const notifyMsgDom = notifyDom.children[0]
 
-  const showNotify = () => notifyDom.style.display = 'block'
-  const hideNotify = () => notifyDom.style.display = 'none'
+  if (useNotify) {
+    const notifyMsgDom = notifyDom.children[0]
+    const showNotify = () => notifyDom.style.display = 'block'
+    const hideNotify = () => notifyDom.style.display = 'none'
+  }
 
   const $notify = function (msg) {
     if (!useNotify) return
@@ -71,7 +74,7 @@ function cacheRequestError (config = {}) {
         $notify(pendingMsg)
       }
       if (this.readyState !== 4) {
-        pendinghandler(this.readyState)
+        pendinghandler(this, args[1])
       }
     }, timeout)
 
@@ -112,7 +115,9 @@ function cacheRequestError (config = {}) {
             }
           }
           if (isLoaded && !pendings.length) {
-            setTimeout(() => hideNotify(), 1000)
+            setTimeout(() => {
+              useNotify ? hideNotify() : customHide
+            }, 1000)
             loads = []
             pendings = []
           }
