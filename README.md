@@ -16,10 +16,17 @@ npm i -S request-catcher
 import rc from 'request-catcher'
 
 rc({
-  pendinghandler () {
-    // do something
+  timeout: 1000,
+  handleNotify ({ xhr, url, status }) {
+    if (status === 'pending') {
+
+    } else if (status === 'loading') {
+
+    } else if (status === 'loaded') {
+
+    }
   },
-  loadinghandler () {
+  handleTimeout ({ xhr, url }) {
     // do something
   },
 })
@@ -28,11 +35,6 @@ rc({
 
 ## configure
 
-- useNotify: If use default notify.
 - timeout: default is 1000ms.
-- wrapperClassName: Outer container's classname, if use it the style attribute will be invalid.
-- msgClassName: Message container's classname, the same as wrapperClassName.
-- pendingMsg: default is 'connecting...'.
-- loadingMsg: default is 'downloading...'.
-- hook: pendinghandler(readyState) -> if time greater than timeout callback will be do something on pending.
-- hook: loadinghandler -> callback do some thing on loading.
+- hook: handleNotify({ xhr, url, status }) -> if time greater than timeout callback will be do something on pending/loading/loaded.
+- hook: handleTimeout({ xhr, url }) -> callback do some thing on timeout.

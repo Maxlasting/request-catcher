@@ -1,11 +1,10 @@
 {
   "name": "request-catcher",
-  "version": "0.0.8",
-  "description": "",
-  "main": "dist/index.js",
+  "version": "0.0.10",
+  "description": "catche ajax request errors and do soming.",
+  "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rimraf dist && rollup -c build/index.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -16,17 +15,10 @@
     "request",
     "catcher"
   ],
-  "author": "maxlasting",
+  "author": "FuQiang",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Maxlasting/request-catcher/issues"
   },
-  "homepage": "https://github.com/Maxlasting/request-catcher#readme",
-  "devDependencies": {
-    "@babel/core": "^7.4.5",
-    "@babel/preset-env": "^7.4.5",
-    "rimraf": "^2.6.3",
-    "rollup-plugin-babel": "^4.3.2",
-    "rollup-plugin-buble": "^0.19.6"
-  }
+  "homepage": "https://github.com/Maxlasting/request-catcher#readme"
 }
