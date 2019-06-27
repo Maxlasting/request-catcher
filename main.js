@@ -5,7 +5,7 @@ function cacheRequestError (config) {
 
   var timeout = config.timeout || 1000
   var handleTimeout = config.handleTimeout || function () {}
-  var handleNotify = config.handleTimeout || function () {}
+  var handleNotify = config.handleNotify || function () {}
 
   var cacheOpen = XMLHttpRequest.prototype.open
 
