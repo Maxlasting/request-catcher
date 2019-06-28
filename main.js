@@ -12,20 +12,22 @@ function cacheRequestError (config) {
   XMLHttpRequest.prototype.open = function () {
     cacheOpen.apply(this, arguments)
 
+    var url = arguments[1]
+
     setTimeout(() => {
       if (this.readyState === 1) {
         this.pending = true
         pendings.push(this)
         handleNotify({
           xhr: this,
-          url: arguments[1],
+          url: url,
           status: 'pending',
         })
       }
       if (this.readyState !== 4) {
         handleTimeout({
           xhr: this,
-          url: arguments[1],
+          url: url,
         })
       }
     }, timeout)
@@ -55,7 +57,7 @@ function cacheRequestError (config) {
           if (!pendings.length) {
             handleNotify({
               xhr: this,
-              url: arguments[1],
+              url: url,
               status: 'loading',
             })
           }
