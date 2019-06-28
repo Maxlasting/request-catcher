@@ -1,11 +1,13 @@
-var pendings = [], loads = []
+var pendings = [], loads = [], loading = false
 
 function cacheRequestError (config) {
   config = config || {}
 
   var timeout = config.timeout || 1000
-  var handleTimeout = config.handleTimeout || function () {}
-  var handleNotify = config.handleNotify || function () {}
+  var pendingTimeout = config.pendingTimeout || timeout
+  var loadingTimeout = config.loadingTimeout || timeout
+  var onRequestTimeout = config.onRequestTimeout || function () {}
+  var onRequestWorking = config.onRequestWorking || function () {}
 
   var cacheOpen = XMLHttpRequest.prototype.open
 
@@ -18,19 +20,19 @@ function cacheRequestError (config) {
       if (this.readyState === 1) {
         this.pending = true
         pendings.push(this)
-        handleNotify({
+        onRequestWorking({
           xhr: this,
           url: url,
           status: 'pending',
         })
       }
       if (this.readyState !== 4) {
-        handleTimeout({
+        onRequestTimeout({
           xhr: this,
           url: url,
         })
       }
-    }, timeout)
+    }, pendingTimeout)
 
     var first = true, start = 0
 
@@ -50,12 +52,13 @@ function cacheRequestError (config) {
           first = false
           start = Date.now()
         }
-        if (this.readyState !== 4 && Date.now() - start > timeout) {
+        if (this.readyState !== 4 && Date.now() - start > loadingTimeout) {
           if (loads.indexOf(this) < 0) {
             loads.push(this)
           }
-          if (!pendings.length) {
-            handleNotify({
+          if (!pendings.length && !loading) {
+            loading = true
+            onRequestWorking({
               xhr: this,
               url: url,
               status: 'loading',
@@ -63,7 +66,7 @@ function cacheRequestError (config) {
           }
         }
         start = Date.now()
-        if (this.readyState === 4) {
+        if (this.readyState === 4 && loads.length) {
           var isLoaded = true
           for (var i=0; i<loads.length; i++) {
             if (loads[i].readyState !== 4) {
@@ -72,13 +75,14 @@ function cacheRequestError (config) {
             }
           }
           if (isLoaded && !pendings.length) {
-            handleNotify({
+            onRequestWorking({
               xhr: this,
-              url: arguments[1],
+              url: url,
               status: 'loaded',
             })
             loads = []
             pendings = []
+            loading = false
           }
         }
       }

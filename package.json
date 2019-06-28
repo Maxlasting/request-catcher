@@ -1,6 +1,6 @@
 {
   "name": "request-catcher",
-  "version": "0.0.12",
+  "version": "0.0.17",
   "description": "catche ajax request errors and do soming.",
   "main": "main.js",
   "scripts": {

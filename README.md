@@ -17,7 +17,7 @@ import rc from 'request-catcher'
 
 rc({
   timeout: 1000,
-  handleNotify ({ xhr, url, status }) {
+  onRequestWorking ({ xhr, url, status }) {
     if (status === 'pending') {
 
     } else if (status === 'loading') {
@@ -26,7 +26,7 @@ rc({
 
     }
   },
-  handleTimeout ({ xhr, url }) {
+  onRequestTimeout ({ xhr, url }) {
     // do something
   },
 })
@@ -36,5 +36,7 @@ rc({
 ## configure
 
 - timeout: default is 1000ms.
-- hook: handleNotify({ xhr, url, status }) -> if time greater than timeout callback will be do something on pending/loading/loaded.
-- hook: handleTimeout({ xhr, url }) -> callback do some thing on timeout.
+- pendingTimeout: default is timeout, set it the timeout will be invalid.
+- loadingTimeout: default is timeout, set it the timeout will be invalid.
+- hook: onRequestWorking({ xhr, url, status }) -> if time greater than timeout callback will be do something on pending/loading/loaded.
+- hook: onRequestTimeout({ xhr, url }) -> callback do some thing on timeout.
