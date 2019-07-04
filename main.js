@@ -67,7 +67,7 @@ function cacheRequestError (config) {
           }
         }
         start = Date.now()
-        if (xhr.readyState === 4 && loads.length) {
+        if (xhr.readyState === 4) {
           var isLoaded = true
           for (var i=0; i<loads.length; i++) {
             if (loads[i].readyState !== 4) {
