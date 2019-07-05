@@ -38,5 +38,6 @@ rc({
 - timeout: default is 1000ms.
 - pendingTimeout: default is timeout, set it the timeout will be invalid.
 - loadingTimeout: default is timeout, set it the timeout will be invalid.
+- urlWhiteLists: url in urlWhiteLists won't be catched.
 - hook: onRequestWorking({ xhr, url, status }) -> if time greater than timeout callback will be do something on pending/loading/loaded.
 - hook: onRequestTimeout({ xhr, url }) -> callback do some thing on timeout.

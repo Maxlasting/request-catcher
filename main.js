@@ -6,6 +6,7 @@ function cacheRequestError (config) {
   var timeout = config.timeout || 1000
   var pendingTimeout = config.pendingTimeout || timeout
   var loadingTimeout = config.loadingTimeout || timeout
+  var urlWhiteLists = config.urlWhiteLists || []
   var onRequestTimeout = config.onRequestTimeout || function () {}
   var onRequestWorking = config.onRequestWorking || function () {}
 
@@ -17,6 +18,12 @@ function cacheRequestError (config) {
     var xhr = this
 
     var url = arguments[1]
+
+    for (var i=0; i<urlWhiteLists.length; i++) {
+      if (url.indexOf(urlWhiteLists[i]) !== -1) {
+        return
+      }
+    }
 
     setTimeout(function () {
       if (xhr.readyState === 1) {
@@ -41,8 +48,8 @@ function cacheRequestError (config) {
       var cacheReadyStateChange = xhr.onreadystatechange
 
       xhr.onreadystatechange = function () {
-        if (typeof cacheReadyStateChange === 'function' && first) {
-          cacheReadyStateChange.apply(xhr, arguments)
+        cacheReadyStateChange && cacheReadyStateChange.apply(xhr, arguments)
+        if (first) {
           var position = pendings.indexOf(xhr)
           if (position > -1) {
             for (var i=position; i<pendings.length-1; i++) {
